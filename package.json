@@ -1,0 +1,48 @@
+{
+  "name": "wc3-utils",
+  "version": "1.0.16",
+  "description": "Utils to Warcraft III",
+  "author": "nazarpunk <nazarpunk@gmail.com>",
+  "license": "MIT",
+  "main": "main.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron .",
+    "watch": "esbuild render/renderer.js --watch --platform=node --target=esnext --format=cjs --bundle --supported:dynamic-import=false --outfile=build/renderer.js",
+    "patch": "npm version patch -m \"Upgrade to %s\"",
+    "start-watch": "concurrently --kill-others \"yarn run start\" \"yarn run watch\"",
+    "postinstall": "electron-builder install-app-deps",
+    "publish": "electron-builder --publish always",
+    "dist": "electron-builder --publish never"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^27.1.0",
+    "electron-builder": "^24.6.4",
+    "electron-reloader": "^1.2.3",
+    "esbuild": "^0.19.7",
+    "warodel": "^1.0.9"
+  },
+  "build": {
+    "appId": "com.electron.${name}",
+    "files": [
+      "./build/**/*",
+      "./fonts/**/*",
+      "main.js",
+      "preload.js",
+      "main.css",
+      "index.html"
+    ],
+    "win": {
+      "target": "portable",
+      "publish": [
+        "github"
+      ]
+    },
+    "linux": {
+      "target": "AppImage",
+      "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+      "category": "Development"
+    }
+  }
+}
