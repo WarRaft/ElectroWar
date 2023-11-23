@@ -1,27 +1,27 @@
 export class AppTaskbar extends HTMLElement {
+    static #sheet
+
     constructor() {
-        super();
+        super()
 
-        const shadow = this.attachShadow({mode: 'open'});
-        shadow.adoptedStyleSheets = [AppTaskbar.sheet];
+        const shadow = this.attachShadow({mode: 'open'})
+        shadow.adoptedStyleSheets = [AppTaskbar.sheet]
 
-        const slot = document.createElement('slot');
-        shadow.appendChild(slot);
-
+        const slot = document.createElement('slot')
+        shadow.appendChild(slot)
     }
 
-    static #sheet;
     static get sheet() {
-        if (AppTaskbar.#sheet) return AppTaskbar.#sheet;
-        AppTaskbar.#sheet = new CSSStyleSheet();
+        if (AppTaskbar.#sheet) return AppTaskbar.#sheet
+        AppTaskbar.#sheet = new CSSStyleSheet()
 
         // noinspection CssUnusedSymbol
         AppTaskbar.sheet.replaceSync(
             //language=CSS
             `
                 :host {
+                    font: 14px/20px USSRStencil;
                     font-size: 28px;
-                    font-weight: bold;
                     position: sticky;
                     z-index: 10;
                     top: 0;
@@ -33,16 +33,15 @@ export class AppTaskbar extends HTMLElement {
                     margin-left: -1rem;
                     -webkit-user-select: none;
                     text-align: center;
-                    text-transform: uppercase;
                     color: #27de4a;
                     background-color: #08321f;
                     text-shadow: none;
                     -webkit-app-region: drag;
                 }
-            `);
+            `)
 
-        return AppTaskbar.#sheet;
+        return AppTaskbar.#sheet
     }
 }
 
-customElements.define('app-taskbar', AppTaskbar);
+customElements.define('app-taskbar', AppTaskbar)

@@ -1,5 +1,7 @@
 import {ButtonLink} from '../components/button-link.mjs'
 
+/** @typedef {import('/main/reader/reader.js').reader} reader */
+
 export class ModelTexturePathClean extends HTMLElement {
     constructor() {
         super()
@@ -27,11 +29,36 @@ export class ModelTexturePathClean extends HTMLElement {
         this.#clearBtn = btn('Clear')
         this.#startBtn = btn('Start')
 
+        this.#uploadBtn.addEventListener('click', async () => {
+            const electron = window.electron
+            const paths = await electron.showOpenDialogSync({
+                title: 'Select model root directory',
+                buttonLabel: 'Open',
+                properties: ['openDirectory'],
+            })
+
+            if (!paths) return
+            await this.readDir(paths[0])
+        })
+
+        this.#uploadBtn.disabled = false
+
         /*
 <div class="files pre"></div>
 <div class="process pre"></div>
          */
 
+        // eslint-disable-next-line no-constant-condition
+        if (1) {
+            this.readDir('/Users/nazarpunk/Downloads/HY_zs_weilan')
+        }
+    }
+
+    async readDir(dirpath) {
+        const list = await window.reader.getDirectoryFilesList(dirpath)
+        for (const file of list) {
+            console.log(file)
+        }
     }
 
     /** @type {ButtonLink} */ #uploadBtn

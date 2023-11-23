@@ -4,7 +4,7 @@
   "description": "Utils to Warcraft III",
   "author": "nazarpunk <nazarpunk@gmail.com>",
   "license": "MIT",
-  "main": "main.js",
+  "main": "main/main.js",
   "homepage": "./",
   "scripts": {
     "start": "electron .",
@@ -17,12 +17,13 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "electron": "^27.1.0",
+    "electron": "^27.1.2",
     "electron-builder": "^24.6.4",
     "electron-reloader": "^1.2.3",
     "esbuild": "^0.19.7",
     "warodel": "^1.0.9"
   },
+  "web-types": "./web-types.json",
   "build": {
     "appId": "com.electron.${name}",
     "files": [

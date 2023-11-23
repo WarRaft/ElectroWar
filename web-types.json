@@ -1,0 +1,60 @@
+{
+  "name": "ElectroWar",
+  "version": "2.0.0",
+  "contributions": {
+    "html": {
+      "elements": [
+        {
+          "name": "model-texture-path-clean"
+        },
+        {
+          "name": "button-link",
+          "css": {
+            "properties": [
+              {"name": "--s"},
+              {"name": "--t"},
+              {"name": "--border"},
+              {"name": "--slant"}
+            ]
+          }
+        },
+        {
+          "name": "app-taskbar",
+          "description": "Main app taskbar.",
+          "doc-url": "https://github.com/JetBrains/web-types/blob/master/examples/custom-web-component.web-types.json",
+          "attributes": [
+            {
+              "name": "color",
+              "description": "Choose color for coolness",
+              "default": "blue",
+              "required": false,
+              "value": {
+                "type": "string"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "container"
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "color:changed",
+                "description": "Emitted when color changes"
+              }
+            ],
+            "properties": [
+              {
+                "name": "color",
+                "type": "string",
+                "default": "blue"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

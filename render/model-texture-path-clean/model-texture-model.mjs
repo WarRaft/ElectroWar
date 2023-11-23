@@ -1,9 +1,9 @@
-export class ButtonLink extends HTMLElement {
+export class ModelTextureModel extends HTMLElement {
     constructor() {
         super()
 
         this.#shadow = this.attachShadow({mode: 'open'})
-        this.#shadow.adoptedStyleSheets = [ButtonLink.sheet]
+        this.#shadow.adoptedStyleSheets = [ModelTextureModel.sheet]
 
         const slot = document.createElement('slot')
         this.#shadow.appendChild(slot)
@@ -19,10 +19,11 @@ export class ButtonLink extends HTMLElement {
     static #sheet
 
     static get sheet() {
-        if (ButtonLink.#sheet) return ButtonLink.#sheet
-        ButtonLink.#sheet = new CSSStyleSheet()
+        if (ModelTextureModel.#sheet) return ModelTextureModel.#sheet
+        ModelTextureModel.#sheet = new CSSStyleSheet()
 
-        ButtonLink.sheet.replaceSync(
+        // noinspection CssUnusedSymbol
+        ModelTextureModel.sheet.replaceSync(
             //language=CSS
             `
                 :host {
@@ -73,8 +74,8 @@ export class ButtonLink extends HTMLElement {
 
             `)
 
-        return ButtonLink.#sheet
+        return ModelTextureModel.#sheet
     }
 }
 
-customElements.define('button-link', ButtonLink)
+customElements.define('model-texture-model', ModelTextureModel)
