@@ -61,7 +61,7 @@ export class ModelTexturePathClean extends HTMLElement {
         })
 
         // eslint-disable-next-line no-constant-condition
-        if (1) {
+        if (0) {
             this.readDir('/Users/nazarpunk/Downloads/HY_zs_weilan1')
         }
     }
