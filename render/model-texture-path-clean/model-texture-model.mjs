@@ -1,19 +1,64 @@
+/** @typedef {import('/main/utils/reader.js').FileData} FileData */
+/** @typedef {import('/main/utils/reader.js').TextureData} TextureData */
+
 export class ModelTextureModel extends HTMLElement {
     constructor() {
         super()
 
         this.#shadow = this.attachShadow({mode: 'open'})
         this.#shadow.adoptedStyleSheets = [ModelTextureModel.sheet]
-
-        const slot = document.createElement('slot')
-        this.#shadow.appendChild(slot)
     }
 
     /** @type {ShadowRoot} */ #shadow
+    /** @type {FileData} */ #file
+    /** @type {HTMLElement} */ #texturesDom
+    /** @type {TextureData[]} */ #texturesList
 
-    /** @param {boolean} value */ set disabled(value) {
-        if (value) this.setAttribute('disabled', '')
-        else this.removeAttribute('disabled')
+    /** @param {FileData} file */
+    set file(file) {
+        this.#file = file
+        const name = document.createElement('div')
+        name.textContent = file.baseRelative
+        this.#shadow.appendChild(name)
+
+        this.#texturesDom = document.createElement('div')
+        this.#texturesDom.classList.add('inner')
+        this.#shadow.appendChild(this.#texturesDom)
+
+        this.#read()
+    }
+
+    async start() {
+        this.#texturesDom.textContent = ''
+        await window.reader.setModelTextures(this.#file, this.#texturesList)
+        await this.#read()
+    }
+
+    async #read() {
+        this.#texturesList = await window.reader.getModelTextures(this.#file)
+
+        if (this.#texturesList.length === 0) {
+            const div = document.createElement('div')
+            div.innerHTML = '<div class="inner"><b class="error">Error!</b> Textures not found.</div>'
+            this.#texturesDom.appendChild(div)
+            return
+        }
+
+        const prefix = 'war3mapImported\\'
+        for (const texture of this.#texturesList) {
+            const div = document.createElement('div')
+            div.classList.add('inner')
+            if (texture.name.startsWith(prefix)) {
+                div.insertAdjacentHTML('beforeend', `<b class="error">${prefix}</b>`)
+                texture.name = texture.name.substring(prefix.length)
+                texture.nameLC = texture.name.toLowerCase()
+            }
+
+            const span = document.createElement('span')
+            span.textContent = texture.name
+            div.appendChild(span)
+            this.#texturesDom.appendChild(div)
+        }
     }
 
     static #sheet
@@ -22,56 +67,20 @@ export class ModelTextureModel extends HTMLElement {
         if (ModelTextureModel.#sheet) return ModelTextureModel.#sheet
         ModelTextureModel.#sheet = new CSSStyleSheet()
 
-        // noinspection CssUnusedSymbol
         ModelTextureModel.sheet.replaceSync(
             //language=CSS
             `
-                :host {
-                    --border: 1px;
-                    --slant: 10px;
+                /*noinspection CssUnusedSymbol*/
+                .inner {
+                    padding-left: 1rem;
+                }
 
-                    text-align: center;
-                    display: flex;
-                    align-items: center;
-                    font: var(--font);
-                    padding: 6px 12px;
-                    cursor: pointer;
-                    user-select: none;
-                    transition: color var(--t, 0.3s), background-size 0.3s;
-                    text-transform: uppercase;
+                /*noinspection CssUnusedSymbol*/
+                .error {
+                    --color: #940e0e;
                     color: var(--color);
-                    border: none;
-                    background: linear-gradient(to bottom left, var(--color) 50%, #0000 50.1%) top right no-repeat, linear-gradient(to top right, var(--color) 50%, #0000 50.1%) bottom left no-repeat;
-                    background-size: calc(var(--slant) + 1.3 * var(--border)) calc(var(--slant) + 1.3 * var(--border));
-                    box-shadow: 0 0 0 200px inset var(--s, #0000), 0 0 0 var(--border) inset var(--color);
-                    text-shadow: var(--text-shadow);
-                    appearance: none;
-                    clip-path: polygon(0 0, calc(100% - var(--slant)) 0, 100% var(--slant), 100% 100%, var(--slant) 100%, 0 calc(100% - var(--slant)));
+                    text-shadow: none;
                 }
-
-
-                :host(:focus-visible) {
-                    outline: var(--border) solid #000c;
-                    /*noinspection CssInvalidPropertyValue*/outline-offset: calc(-1 * var(--border));
-                    background-size: 0 0;
-                    clip-path: none;
-                }
-                :host(:hover),
-                :host(:active) {
-                    color: #000;
-                    background-size: 100% 100%;
-                    --t: 0.2s 0.1s;
-                }
-                :host(:active) {
-                    transition: none;
-                    --s: #0005;
-                }
-
-                :host([disabled]) {
-                    pointer-events: none;
-                    --color: rgb(128, 128, 128);
-                }
-
             `)
 
         return ModelTextureModel.#sheet

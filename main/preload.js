@@ -6,6 +6,8 @@ contextBridge.exposeInMainWorld('electron', {
 
 contextBridge.exposeInMainWorld('reader', {
     getDirectoryFilesList: dirpath => ipcRenderer.invoke('getDirectoryFilesList', dirpath),
+    getModelTextures: file => ipcRenderer.invoke('getModelTextures', file),
+    setModelTextures: (file, textures) => ipcRenderer.invoke('setModelTextures', file, textures),
 })
 
 contextBridge.exposeInMainWorld('fs', {

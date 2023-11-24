@@ -17,6 +17,7 @@
     "no-unsafe-optional-chaining": "off",
     "no-console": "warn",
     "no-eq-null": "warn",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "no-constant-condition": "off"
   }
 }

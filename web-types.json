@@ -6,6 +6,8 @@
       "elements": [
         {
           "name": "model-texture-path-clean"
+        }, {
+          "name": "model-texture-model"
         },
         {
           "name": "button-link",

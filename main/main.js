@@ -7,7 +7,7 @@ const {
 
 const path = require('path')
 const fs = require('fs')
-const reader = require('./reader/reader')
+const reader = require('./utils/reader')
 
 if (!app.isPackaged) {
     require('electron-reloader')(module, {
@@ -34,8 +34,8 @@ const createWindow = () => {
         show: !debug,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            nodeIntegration: true,
-            nodeIntegrationInWorker: true,
+            nodeIntegration: false,
+            nodeIntegrationInWorker: false,
             contextIsolation: true,
             //devTools: !app.isPackaged,
         }
@@ -52,18 +52,13 @@ const createWindow = () => {
 app.whenReady().then(() => {
     // reader
     ipcMain.handle('getDirectoryFilesList', (event, dirpath) => reader.getDirectoryFilesList(dirpath))
-
+    ipcMain.handle('getModelTextures', (event, file) => reader.getModelTextures(file))
+    ipcMain.handle('setModelTextures', (event, file, textures) => reader.setModelTextures(file, textures))
 
     // dialog
     ipcMain.handle('showOpenDialogSync', (event, options) => dialog.showOpenDialogSync(options))
 
     // fs
-    ipcMain.handle('statSync', (event, path) => {
-        const stat = fs.statSync(path)
-        stat.isFile = stat.isFile()
-        stat.isDirectory = stat.isDirectory()
-        return stat
-    })
     ipcMain.handle('readdirSync', (event, path, options) => fs.readdirSync(path, options))
     ipcMain.handle('readFileSync', (event, path, options) => fs.readFileSync(path, options))
     ipcMain.handle('writeFileSync', (event, path, data, options) => fs.writeFileSync(path, data, options))

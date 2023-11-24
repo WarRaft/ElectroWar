@@ -1,10 +1,8 @@
 :root {
     font: var(--font);
     color: var(--color);
-    text-shadow: var(--text-shadow);
     --font: 14px/20px JetBrainsMono, monospace;
     --color: #72f3bb;
-    --text-shadow: 0 0 1px var(--color);
     color-scheme: dark;
 }
 
@@ -37,8 +35,5 @@ body {
 }
 
 .error {
-    color: var(--color);
-    text-shadow: var(--text-shadow);
     --color: #e32525;
-    --text-shadow: 0 0 1px var(--color);
 }
