@@ -89,12 +89,12 @@ const getModelTextures = file => {
  */
 const setModelTextures = (file, textures) => {
     const fileHandle = fs.openSync(file.file, 'r+')
-    const array = new Uint8Array(260).fill(0)
+    const array = new Uint8Array(260)
     const encoder = new TextEncoder('utf8')
 
     for (const texture of textures) {
         const data = encoder.encode(texture.name)
-        array.set(data)
+        array.fill(0).set(data)
         fs.writeSync(fileHandle, array, 0, array.length, texture.offset)
     }
     fs.closeSync(fileHandle)

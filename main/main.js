@@ -24,6 +24,7 @@ const createWindow = () => {
         x: debug ? 1740 : null,
         y: debug ? 120 : null,
         roundedCorners: true,
+        transparent: true,
         titleBarStyle: 'hidden',
         titleBarOverlay: true,
         alwaysOnTop: debug,
