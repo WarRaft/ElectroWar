@@ -11,10 +11,9 @@ const reader = require('./utils/reader')
 
 if (!app.isPackaged) {
     require('electron-reloader')(module, {
-        ignore: ['./renderer.js']
+        ignore: ['./render/renderer.js']
     })
 }
-
 
 const createWindow = () => {
     const debug = !app.isPackaged
@@ -45,7 +44,7 @@ const createWindow = () => {
         win.showInactive()
         win.webContents.openDevTools()
     }
-    win.loadFile('index.html')
+    win.loadFile('render/index.html')
 
 }
 
