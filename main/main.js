@@ -11,7 +11,7 @@ const reader = require('./utils/reader')
 
 if (!app.isPackaged) {
     require('electron-reloader')(module, {
-        ignore: ['./render/renderer.js']
+        //ignore: ['./render/renderer.js']
     })
 }
 
