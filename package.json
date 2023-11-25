@@ -22,12 +22,9 @@
   "build": {
     "appId": "com.electron.${name}",
     "files": [
-      "./build/**/*",
-      "./fonts/**/*",
-      "main.js",
-      "preload.js",
-      "main.css",
-      "index.html"
+      "./main/**/*",
+      "./render/**/*",
+      "./fonts/**/*"
     ],
     "win": {
       "target": "portable",
