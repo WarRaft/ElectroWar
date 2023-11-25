@@ -24,7 +24,8 @@
     "files": [
       "./main/**/*",
       "./render/**/*",
-      "./fonts/**/*"
+      "./fonts/**/*",
+      "index.html"
     ],
     "win": {
       "target": "portable",
